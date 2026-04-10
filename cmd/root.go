@@ -43,6 +43,19 @@ const (
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+var (
+	onceRoot  sync.Once
+	rootCmd   *cobra.Command
+	rootFlags struct {
+		verbose bool
+
+		tabLayout string
+		tabTarget string
+	}
+)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 func InitDocs() {
 	info := domovoi.AppInfo{
 		Name:    APP,
@@ -76,25 +89,44 @@ func Execute() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-type rootFlag struct {
-	verbose bool
-}
-
-var (
-	onceRoot  sync.Once
-	rootCmd   *cobra.Command
-	rootFlags rootFlag
-)
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
 func BuildCommands() {
 	root := GetRootCmd()
+
 	root.AddCommand(
 		CompletionCmd(),
 		IdentityCmd(),
 
+		CleanCmd(),
+		KillCmd(),
+		LaunchCmd(),
+		ListCmd(),
+		NameCmd(),
+		TabCmd(),
+		UpdateCmd(),
 	)
+
+	floatCmd := FloatCmd()
+
+	batCmd, batTop := createZellijCommand("bat", runBat, floatCmd)
+	ezaCmd, ezaTop := createZellijCommand("eza", runEza, floatCmd)
+	helixCmd, helixTop := createZellijCommand("helix", runEditor("hx"), floatCmd, domovoi.WithAliases([]string{"hx"}))
+	lazygitCmd, lazygitTop := createZellijCommand("lazygit", runLazygit, floatCmd,
+		domovoi.WithArgs(cobra.MaximumNArgs(1)),
+		domovoi.WithValidArgs(validLayouts),
+		domovoi.WithAliases([]string{"lg"}),
+	)
+	mdcatCmd, mdcatTop := createZellijCommand("mdcat", runMDcat, floatCmd)
+	microCmd, microTop := createZellijCommand("micro", runEditor("micro"), floatCmd, domovoi.WithAliases([]string{"mc"}))
+	resizeCmd, resizeTop := createZellijCommand("resize", runResize, floatCmd,
+		domovoi.WithArgs(cobra.MaximumNArgs(1)),
+		domovoi.WithValidArgs(validLayouts),
+	)
+	watchCmd, watchTop := createZellijCommand("watch", runWatch, floatCmd)
+	yaziCmd, yaziTop := createZellijCommand("yazi", runYazi, floatCmd)
+
+	floatCmd.AddCommand(batCmd, ezaCmd, helixCmd, lazygitCmd, mdcatCmd, microCmd, resizeCmd, watchCmd, yaziCmd)
+	root.AddCommand(floatCmd)
+	root.AddCommand(batTop, ezaTop, helixTop, lazygitTop, mdcatTop, microTop, resizeTop, watchTop, yaziTop)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
