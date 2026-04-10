@@ -22,5 +22,128 @@
         "help"
       ]
     ]
+  },
+  "float": {
+    "use": "float [layout]",
+    "short": "Open a floating shell in Zellij",
+    "long": "Launch a floating Zellij pane running zsh. Optionally specify a layout preset.",
+    "example_usages": [
+      [
+        "float"
+      ],
+      [
+        "float",
+        "full"
+      ]
+    ],
+    "valid_args": [
+      "default",
+      "full",
+      "half-left",
+      "half-right",
+      "top-left",
+      "bottom-left",
+      "top-right",
+      "bottom-right"
+    ]
+  },
+  "bat": {
+    "use": "bat [file]",
+    "short": "View file with bat",
+    "long": "Shortcut for 'float bat'. Opens bat with paging in a floating Zellij pane.",
+    "example_usages": [
+      [
+        "bat",
+        "README.md"
+      ]
+    ]
+  },
+  "eza": {
+    "use": "eza [directory]",
+    "short": "Browse directory with eza",
+    "long": "Shortcut for 'float eza'."
+  },
+  "helix": {
+    "use": "helix [file]",
+    "short": "Edit with Helix",
+    "aliases": [
+      "hx"
+    ]
+  },
+  "lazygit": {
+    "use": "lazygit [layout]",
+    "short": "Open lazygit",
+    "aliases": [
+      "lg"
+    ]
+  },
+  "mdcat": {
+    "use": "mdcat <file>",
+    "short": "Render Markdown"
+  },
+  "micro": {
+    "use": "micro [file]",
+    "short": "Edit with micro",
+    "aliases": [
+      "mc"
+    ]
+  },
+  "resize": {
+    "use": "resize [layout]",
+    "short": "Resize floating pane"
+  },
+  "watch": {
+    "use": "watch",
+    "short": "Run 'just watch'"
+  },
+  "yazi": {
+    "use": "yazi",
+    "short": "Open yazi"
+  },
+  "tab": {
+    "use": "tab [target...]",
+    "short": "Create a new Zellij tab with a workspace layout",
+    "long": "Create a new Zellij tab using a predefined layout (devel, tab, tabs2, etc.). Optionally specify target directories.",
+    "example_usages": [
+      [
+        "tab"
+      ],
+      [
+        "tab",
+        "--type",
+        "explore",
+        "~/projects/foo"
+      ]
+    ]
+  },
+  "clean": {
+    "use": "clean",
+    "short": "Delete all Zellij sessions",
+    "long": "Forcefully delete all Zellij sessions without confirmation."
+  },
+  "kill": {
+    "use": "kill",
+    "short": "Kill the current Zellij session",
+    "long": "Terminate the currently active Zellij session."
+  },
+  "launch": {
+    "use": "launch --layout <file> [--target <dir>]",
+    "short": "Launch a new Zellij session with a custom layout",
+    "long": "Send key sequence to Zellij to create a new session using a .kdl layout file. Use --target to change directory first."
+  },
+  "list": {
+    "use": "list",
+    "short": "List Zellij sessions",
+    "long": "Display all running Zellij sessions."
+  },
+  "name": {
+    "use": "name",
+    "short": "Rename current Zellij tab to working directory",
+    "long": "Set the current tab's name to the basename of the current directory (or '~' for home)."
+  },
+  "update": {
+    "use": "update",
+    "short": "Run Zellij update layout",
+    "long": "Open a new tab with the update.kdl layout to refresh components."
   }
 }
