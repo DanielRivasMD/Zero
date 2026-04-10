@@ -1,2 +1,9 @@
+- collect zellij pane numbers
+- integrate as rust plugin?
+
 ==================================================
+cmd/cmdFloat.go
+  line 255    TODO   check if `just watch` exist
+cmd/utilFloat.go
+  line 29     TODO   redundant defaults?
 ==================================================
