@@ -2,6 +2,9 @@
 # go
 ####################################################################################################
 
+# update package manager
+g self-upgrade
+
 # check updates
 go-global-update --dry-run
 
