@@ -1,6 +1,7 @@
 - collect zellij pane numbers
 - integrate as rust plugin? => this would imply to re-write all functions in rust & access zellij commands directly instead of through the cli
 
+- add a command to call a named stacked pane, similar to zero float
 - add a command that recreates clock & system monitoring
 
 ==================================================
