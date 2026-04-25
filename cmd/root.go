@@ -38,7 +38,7 @@ const (
 	APP     = "zero"
 	VERSION = "v0.1.0"
 	AUTHOR  = "Daniel Rivas"
-	EMAIL   = "<danielrivasmd@gmail.com>"
+	EMAIL   = "danielrivasmd@gmail.com"
 )
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
