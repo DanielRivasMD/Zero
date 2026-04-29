@@ -4,6 +4,11 @@
 - add a command to call a named stacked pane, similar to zero float
 - add a command that recreates clock & system monitoring
 
+- add command `stack` to launch a new tab with stack panes or to stack panes in current tab?
+- lou manipulation functions as potential zellij plugins?
+- refactor update for compatibility with ubuntu
+- add monitor command as a stacked tab
+
 ==================================================
 cmd/cmdFloat.go
   line 255    TODO   check if `just watch` exist
