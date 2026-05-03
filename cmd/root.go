@@ -101,6 +101,7 @@ func BuildCommands() {
 		LaunchCmd(),
 		ListCmd(),
 		NameCmd(),
+		MonitorCmd(),
 		TabCmd(),
 		UpdateCmd(),
 	)

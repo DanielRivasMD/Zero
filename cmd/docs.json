@@ -126,6 +126,11 @@
     "short": "List Zellij sessions",
     "long": "Display all running Zellij sessions."
   },
+  "monitor": {
+    "use": "monitor",
+    "short": "Monitor system through Zellij tab",
+    "long": "Monitor system through Zellij tab"
+  },
   "name": {
     "use": "name",
     "short": "Rename current Zellij tab to working directory",
