@@ -35,9 +35,9 @@ func UpdateCmd() *cobra.Command {
 
 func runUpdate(cmd *cobra.Command, args []string) {
 	op := "zero.update"
-	cmdZellijUpdate := `zellij action new-tab --layout ~/.zero/layouts/update.kdl`
+	shellUpdate := `zellij action new-tab --layout ~/.zero/layouts/update.kdl`
 	horus.CheckErr(
-		domovoi.ExecSh(cmdZellijUpdate),
+		domovoi.ExecSh(shellUpdate),
 		horus.WithOp(op),
 		horus.WithCategory("shell_command"),
 		horus.WithMessage("Failed to run update layout"),

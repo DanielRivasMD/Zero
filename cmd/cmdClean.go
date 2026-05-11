@@ -35,9 +35,9 @@ func CleanCmd() *cobra.Command {
 
 func runClean(cmd *cobra.Command, args []string) {
 	op := "zero.clean"
-	cmdZellijClean := `zellij delete-all-sessions --yes`
+	shellClean := `zellij delete-all-sessions --yes`
 	horus.CheckErr(
-		domovoi.ExecSh(cmdZellijClean),
+		domovoi.ExecSh(shellClean),
 		horus.WithOp(op),
 		horus.WithCategory("shell_command"),
 		horus.WithMessage("Failed to clean Zellij sessions"),

@@ -30,13 +30,13 @@ func createTab(tabType, tabTarget string) {
 		)
 	}
 
-	cmdStr := fmt.Sprintf(
+	shellTab := fmt.Sprintf(
 		`zellij action new-tab --layout $HOME/.zero/layouts/%s.kdl --name $( [ "$PWD" = "$HOME" ] && echo "~" || basename "$PWD" )`,
 		tabType,
 	)
 
 	if tabTarget == "" {
-		if err := domovoi.ExecSh(cmdStr); err != nil {
+		if err := domovoi.ExecSh(shellTab); err != nil {
 			horus.CheckErr(
 				err,
 				horus.WithOp(op),
@@ -78,7 +78,7 @@ func createTab(tabType, tabTarget string) {
 		)
 	}
 
-	if err := domovoi.ExecSh(cmdStr); err != nil {
+	if err := domovoi.ExecSh(shellTab); err != nil {
 		horus.CheckErr(
 			err,
 			horus.WithOp(op),

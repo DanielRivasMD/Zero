@@ -62,14 +62,14 @@ func runLaunch(cmd *cobra.Command, args []string) {
 		)
 	}
 
-	cmdLaunch := fmt.Sprintf(
+	shellLaunch := fmt.Sprintf(
 		`zellij action write-chars "zellij --new-session-with-layout $HOME/.config/zellij/layouts/%s"; zellij action write 13`,
 		launchFlags.layout,
 	)
 
 	if launchFlags.target == "" {
 		horus.CheckErr(
-			domovoi.ExecSh(cmdLaunch),
+			domovoi.ExecSh(shellLaunch),
 			horus.WithOp(op),
 			horus.WithCategory("shell_command"),
 			horus.WithMessage("Failed to launch new Zellij session"),
@@ -80,7 +80,7 @@ func runLaunch(cmd *cobra.Command, args []string) {
 	const cmdZellijTab = `zellij action new-tab \
 --layout $HOME/.zero/layouts/launch.kdl \
 --name "$( [ "$PWD" = "$HOME" ] && echo "~" || basename "$PWD" )"`
-	fullCmd := cmdZellijTab + "; " + cmdLaunch
+	fullCmd := cmdZellijTab + "; " + shellLaunch
 
 	originalDir, err := domovoi.RecallDir()
 	horus.CheckErr(err,
