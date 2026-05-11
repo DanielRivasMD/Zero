@@ -82,6 +82,10 @@
     "use": "resize [layout]",
     "short": "Resize floating pane"
   },
+  "stack": {
+    "use": "stack",
+    "short": "Stack pane"
+  },
   "watch": {
     "use": "watch",
     "short": "Run 'just watch'"
