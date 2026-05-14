@@ -35,7 +35,7 @@ var docsFS embed.FS
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const (
-	APP     = "zero"
+	APP     = "x"
 	VERSION = "v0.1.0"
 	AUTHOR  = "Daniel Rivas"
 	EMAIL   = "danielrivasmd@gmail.com"

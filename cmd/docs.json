@@ -15,7 +15,7 @@
     ]
   },
   "root": {
-    "use": "zero",
+    "use": "x",
     "long": "Zero Zellij overhead",
     "example_usages": [
       [
