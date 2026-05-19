@@ -63,7 +63,7 @@ func runLaunch(cmd *cobra.Command, args []string) {
 	}
 
 	shellLaunch := fmt.Sprintf(
-		`zellij action write-chars "zellij --new-session-with-layout $HOME/.config/zellij/layouts/%s"; zellij action write 13`,
+		`zellij action write-chars "zellij --new-session-with-layout $HOME/.zero/launch/%s"; zellij action write 13`,
 		launchFlags.layout,
 	)
 
