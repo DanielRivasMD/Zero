@@ -47,7 +47,7 @@ func runMonitor(cmd *cobra.Command, args []string) {
 	const op = "zero.monitor"
 
 	cmdStr := fmt.Sprintf(
-		`zellij action new-tab --layout $HOME/.zero/layouts/%s.kdl --name $( [ "$PWD" = "$HOME" ] && echo "~" || basename "$PWD" )`,
+		`zellij action new-tab --layout $HOME/.zero/monitor/%s.kdl --name $( [ "$PWD" = "$HOME" ] && echo "~" || basename "$PWD" )`,
 		MONITOR,
 	)
 
