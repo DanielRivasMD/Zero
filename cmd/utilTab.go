@@ -31,7 +31,7 @@ func createTab(tabType, tabTarget string) {
 	}
 
 	shellTab := fmt.Sprintf(
-		`zellij action new-tab --layout $HOME/.zero/layouts/%s.kdl --name $( [ "$PWD" = "$HOME" ] && echo "~" || basename "$PWD" )`,
+		`zellij action new-tab --layout $HOME/.zero/tab/%s.kdl --name $( [ "$PWD" = "$HOME" ] && echo "~" || basename "$PWD" )`,
 		tabType,
 	)
 
