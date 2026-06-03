@@ -35,7 +35,7 @@ func UpdateCmd() *cobra.Command {
 
 func runUpdate(cmd *cobra.Command, args []string) {
 	op := "zero.update"
-	shellUpdate := `zellij action new-tab --layout ~/.zero/layouts/update.kdl`
+	shellUpdate := `zellij action new-tab --layout ~/.zero/launch/update.kdl`
 	horus.CheckErr(
 		domovoi.ExecSh(shellUpdate),
 		horus.WithOp(op),
