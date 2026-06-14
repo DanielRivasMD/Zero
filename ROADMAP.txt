@@ -1,10 +1,13 @@
 - refactor in rust
+- future integrate as rust plugin
+
+- add a command to launch a session for rust workspaces
 
 - collect zellij pane numbers?
-- integrate as rust plugin? => this would imply to re-write all functions in rust & access zellij commands directly instead of through the cli
-
 - add command `stack` to launch a new tab with stack panes or to stack panes in current tab?
-- refactor update for compatibility with ubuntu
+- refactor update for compatibility with ubuntu => pendant
+
+
 
 ==================================================
 cmd/cmdFloat.go
