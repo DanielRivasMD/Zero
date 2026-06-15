@@ -7,3 +7,4 @@ pub mod launch;
 pub mod list;
 pub mod monitor;
 pub mod name;
+pub mod stack;
