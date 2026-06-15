@@ -9,3 +9,4 @@ pub mod monitor;
 pub mod name;
 pub mod stack;
 pub mod tab;
+pub mod update;
