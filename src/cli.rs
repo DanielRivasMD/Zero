@@ -1,7 +1,7 @@
 use crate::cmds::{
     clean::CleanCmd,
     completion::CompletionCmd,
-    float::{FloatCmd, FloatSubcommands},
+    float::{FloatCmd, FloatSubArgs, FloatSubcommands},
     identity::IdentityCmd,
     kill::KillCmd,
     launch::LaunchCmd,
@@ -66,34 +66,34 @@ pub enum Commands {
     Float(FloatCmd),
 
     /// View file with bat in floating pane
-    Bat(FloatSubcommands),
+    Bat(FloatSubArgs),
 
     /// Browse directory with eza in floating pane
-    Eza(FloatSubcommands),
+    Eza(FloatSubArgs),
 
     /// Edit with Helix in floating pane
     #[command(alias = "hx")]
-    Helix(FloatSubcommands),
+    Helix(FloatSubArgs),
 
     /// Open lazygit in floating pane
     #[command(alias = "lg")]
-    Lazygit(FloatSubcommands),
+    Lazygit(FloatSubArgs),
 
     /// Render Markdown with mdcat in floating pane
-    Mdcat(FloatSubcommands),
+    Mdcat(FloatSubArgs),
 
     /// Edit with micro in floating pane
     #[command(alias = "mc")]
-    Micro(FloatSubcommands),
+    Micro(FloatSubArgs),
 
     /// Resize current floating pane
-    Resize(FloatSubcommands),
+    Resize(FloatSubArgs),
 
     /// Run 'just watch' in floating pane
-    Watch(FloatSubcommands),
+    Watch(FloatSubArgs),
 
     /// Open yazi file manager in floating pane
-    Yazi(FloatSubcommands),
+    Yazi(FloatSubArgs),
 }
 
 impl Cli {
@@ -111,15 +111,32 @@ impl Cli {
             Commands::Tab(cmd) => cmd.run(),
             Commands::Update => UpdateCmd::run(),
             Commands::Float(cmd) => cmd.run(),
-            Commands::Bat(sub) => sub.run_bat(),
-            Commands::Eza(sub) => sub.run_eza(),
-            Commands::Helix(sub) => sub.run_helix(),
-            Commands::Lazygit(sub) => sub.run_lazygit(),
-            Commands::Mdcat(sub) => sub.run_mdcat(),
-            Commands::Micro(sub) => sub.run_micro(),
-            Commands::Resize(sub) => sub.run_resize(),
-            Commands::Watch(sub) => sub.run_watch(),
-            Commands::Yazi(sub) => sub.run_yazi(),
+            Commands::Bat(_sub) => {
+                // Top-level shortcuts use default flags
+                let cmd = FloatCmd::default();
+                cmd.run()
+            }
+            Commands::Eza(_sub) => FloatCmd::default().run(),
+            Commands::Helix(_sub) => FloatCmd::default().run(),
+            Commands::Lazygit(_sub) => FloatCmd::default().run(),
+            Commands::Mdcat(_sub) => FloatCmd::default().run(),
+            Commands::Micro(_sub) => FloatCmd::default().run(),
+            Commands::Resize(_sub) => FloatCmd::default().run(),
+            Commands::Watch(_sub) => FloatCmd::default().run(),
+            Commands::Yazi(_sub) => FloatCmd::default().run(),
+        }
+    }
+}
+
+impl Default for FloatCmd {
+    fn default() -> Self {
+        FloatCmd {
+            height: "100%".into(),
+            width: "95%".into(),
+            x: "10".into(),
+            y: "0".into(),
+            layout: None,
+            subcommand: None,
         }
     }
 }

@@ -1,5 +1,5 @@
 use clap::{CommandFactory, Parser};
-use clap_complete::{Generator, Shell, generate};
+use clap_complete::{Shell, generate};
 use std::io;
 
 use crate::cli::Cli;
