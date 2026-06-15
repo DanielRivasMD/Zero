@@ -1,3 +1,28 @@
+zero/
+├── Cargo.toml
+├── src/
+│   ├── main.rs
+│   ├── cli.rs
+│   ├── commands/
+│   │   ├── mod.rs
+│   │   ├── float.rs
+│   │   ├── clean.rs
+│   │   ├── kill.rs
+│   │   ├── launch.rs
+│   │   ├── list.rs
+│   │   ├── name.rs
+│   │   ├── monitor.rs
+│   │   ├── stack.rs
+│   │   ├── tab.rs
+│   │   ├── update.rs
+│   │   ├── identity.rs
+│   │   └── completion.rs
+│   └── utils/
+│       ├── mod.rs
+│       └── shell.rs
+
+
+
 - refactor in rust
 - future integrate as rust plugin
 
