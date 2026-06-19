@@ -1,48 +1,105 @@
-use crate::util::shell::exec_sh;
+use anyhow::Context;
 use clap::Parser;
 use std::env;
+use std::fs;
+use std::io::Write;
+use std::path::Path;
+use std::process::Command;
 
-/// Launch a new Zellij session with a custom layout
+/// Launch a new Zellij session with tabs for a root directory and its git‑controlled subdirectories.
 #[derive(Parser)]
 pub struct LaunchCmd {
-    /// The .kdl layout file to launch (required)
-    #[arg(short, long)]
-    pub layout: String,
-
-    /// If set, cd into this path before launching (and return afterward)
-    #[arg(short, long)]
-    pub target: Option<String>,
+    /// Path whose subdirectories will each become a tab (the root itself also gets a tab).
+    pub target: String,
 }
 
 impl LaunchCmd {
     pub fn run(self) -> anyhow::Result<()> {
-        let shell_launch = format!(
-            "zellij action write-chars \"zellij --new-session-with-layout $HOME/.zero/launch/{}\"; zellij action write 13",
-            self.layout
-        );
+        let root = Path::new(&self.target)
+            .canonicalize()
+            .with_context(|| format!("Invalid path: {}", self.target))?;
 
-        if self.target.is_none() {
-            return exec_sh(&shell_launch)
-                .map_err(|e| anyhow::anyhow!("Failed to launch new Zellij session: {}", e));
+        if !root.is_dir() {
+            anyhow::bail!("Not a directory: {}", root.display());
         }
 
-        let target = self.target.as_ref().unwrap();
-        let cmd_tab = "zellij action new-tab --layout $HOME/.zero/layouts/launch.kdl --name \"$( [ \"$PWD\" = \"$HOME\" ] && echo \"~\" || basename \"$PWD\" )\"";
-        let full_cmd = format!("{}; {}", cmd_tab, shell_launch);
+        let session_name = root
+            .file_name()
+            .unwrap_or_default()
+            .to_string_lossy()
+            .into_owned();
 
-        let original_dir = env::current_dir()
-            .map_err(|e| anyhow::anyhow!("Failed to recall original directory: {}", e))?;
+        // Collect only subdirectories containing a .git folder
+        let mut subdirs = Vec::new();
+        for entry in fs::read_dir(&root)
+            .with_context(|| format!("Failed to read directory: {}", root.display()))?
+        {
+            let entry = entry?;
+            let path = entry.path();
+            if path.is_dir() && path.join(".git").exists() {
+                subdirs.push(path);
+            }
+        }
 
-        // Change to target directory
-        env::set_current_dir(target).map_err(|e| {
-            anyhow::anyhow!("Failed to change to target directory '{}': {}", target, e)
-        })?;
+        // Build KDL layout string
+        let mut kdl = String::new();
+        kdl.push_str("layout {\n");
 
-        // Execute and restore directory
-        let result = exec_sh(&full_cmd);
-        env::set_current_dir(&original_dir).ok();
+        // Root tab
+        write_devel_tab(&mut kdl, &session_name, &root.to_string_lossy());
 
-        result
-            .map_err(|e| anyhow::anyhow!("Failed to launch new Zellij session with target: {}", e))
+        // Subdirectory tabs
+        for dir in &subdirs {
+            let name = dir
+                .file_name()
+                .unwrap_or_default()
+                .to_string_lossy()
+                .into_owned();
+            write_devel_tab(&mut kdl, &name, &dir.to_string_lossy());
+        }
+
+        kdl.push_str("}\n");
+
+        // Write temporary KDL file
+        let mut tmp = tempfile::Builder::new()
+            .prefix("zero_launch_")
+            .suffix(".kdl")
+            .tempfile()
+            .context("Failed to create temporary KDL file")?;
+        tmp.write_all(kdl.as_bytes())
+            .context("Failed to write temporary KDL content")?;
+
+        // Launch Zellij with the generated layout
+        let status = Command::new("zellij")
+            .args([
+                "--new-session-with-layout",
+                tmp.path().to_str().unwrap(),
+                "--session",
+                &session_name,
+            ])
+            .status()
+            .context("Failed to launch Zellij session")?;
+
+        drop(tmp); // tempfile auto-deletes
+
+        if !status.success() {
+            anyhow::bail!("Zellij exited with error");
+        }
+
+        Ok(())
     }
+}
+
+/// Append a tab with an editor (Helix) and a canvas pane.
+fn write_devel_tab(kdl: &mut String, name: &str, cwd: &str) {
+    use std::fmt::Write;
+    // Vertical split: left pane = editor, right pane = canvas (shell)
+    let _ = writeln!(kdl, "    tab name=\"{}\" cwd=\"{}\" {{", name, cwd);
+    let _ = writeln!(kdl, "        pane split_direction=\"vertical\" {{");
+    let _ = writeln!(kdl, "            pane command=\"hx\" {{");
+    let _ = writeln!(kdl, "            }}");
+    let _ = writeln!(kdl, "            pane {{");
+    let _ = writeln!(kdl, "            }}");
+    let _ = writeln!(kdl, "        }}");
+    let _ = writeln!(kdl, "    }}");
 }
