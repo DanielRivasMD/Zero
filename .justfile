@@ -48,16 +48,14 @@ build app=app:
 # install locally
 install dir=dir app=app exe=exe:
   @echo "\n\033[1;33mInstalling\033[0;37m...\n=================================================="
-  go install
-  @echo "\n\033[1;33mLinking\033[0;37m...\n=================================================="
-  @mv -v "${HOME}/go/bin/{{app}}" "${HOME}/go/bin/{{exe}}"
+  cargo install --path .
   @echo "\n\033[1;33mCopying\033[0;37m...\n=================================================="
   @if [ ! -d "${HOME}/{{dir}}" ]; then mkdir "${HOME}/{{dir}}"; fi
   @if test -e "${HOME}/{{sh}}"; then rm -r "${HOME}/{{sh}}"; fi && echo "\033[1;33msh\033[0;37m" && cp -v -R "sh" "${HOME}/{{sh}}"
   @if test -e "${HOME}/{{launch}}"; then rm -r "${HOME}/{{launch}}"; fi && echo "\033[1;33mlaunch\033[0;37m" && cp -v -R "layouts/launch" "${HOME}/{{launch}}"
   @if test -e "${HOME}/{{monitor}}"; then rm -r "${HOME}/{{monitor}}"; fi && echo "\033[1;33mmonitor\033[0;37m" && cp -v -R "layouts/monitor" "${HOME}/{{monitor}}"
   @if test -e "${HOME}/{{tab}}"; then rm -r "${HOME}/{{tab}}"; fi && echo "\033[1;33mtab\033[0;37m" && cp -v -R "layouts/tab" "${HOME}/{{tab}}"
-  "${HOME}/go/bin/{{exe}}" completion zsh > "${HOME}/.config/zsh_completion/_{{exe}}"
+  x completion zsh > $HOME/.config/zsh_completion/_x
 
 ####################################################################################################
 
