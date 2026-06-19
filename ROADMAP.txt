@@ -23,14 +23,15 @@ zero/
 
 
 
-- refactor in rust
+- refactor in rust => WIP
 - future integrate as rust plugin
 
-- add a command to launch a session for rust workspaces
+- add a command to launch a session for rust workspaces => WIP
 
 - collect zellij pane numbers?
-- add command `stack` to launch a new tab with stack panes or to stack panes in current tab?
-- refactor update for compatibility with ubuntu => pendant
+- add command `stack` to launch a new tab with stack panes => DONE
+- stack panes in current tab? => TODO?
+- refactor update for compatibility with ubuntu => pendant & needed?
 
 
 
