@@ -37,7 +37,7 @@ impl TabCmd {
     }
 }
 
-fn create_tab(tab_type: &str, target: Option<&str>) -> anyhow::Result<()> {
+pub fn create_tab(tab_type: &str, target: Option<&str>) -> anyhow::Result<()> {
     let cmd = format!(
         "zellij action new-tab --layout $HOME/.zero/tab/{}.kdl --name \"$( [ \"$PWD\" = \"$HOME\" ] && echo \"~\" || basename \"$PWD\" )\"",
         tab_type
