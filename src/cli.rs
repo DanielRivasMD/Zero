@@ -28,13 +28,6 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 pub enum Commands {
-    /// Generate shell completions
-    Completion(CompletionCmd),
-
-    /// Display identity
-    #[command(alias = "id", hide = true)]
-    Identity,
-
     /// Delete all Zellij sessions
     Clean,
 
@@ -45,6 +38,7 @@ pub enum Commands {
     Launch(LaunchCmd),
 
     /// List Zellij sessions
+    #[command(alias = "ls")]
     List,
 
     /// Rename current Zellij tab to working directory
@@ -94,6 +88,14 @@ pub enum Commands {
 
     /// Open yazi file manager in floating pane
     Yazi(FloatSubArgs),
+
+    /// Display identity
+    #[command(alias = "id", hide = true)]
+    Identity,
+
+    /// Generate shell completions
+    #[command(hide = true)]
+    Completion(CompletionCmd),
 }
 
 impl Cli {
