@@ -123,7 +123,15 @@ impl Cli {
             Commands::Lazygit(_sub) => FloatCmd::default().run(),
             Commands::Mdcat(_sub) => FloatCmd::default().run(),
             Commands::Micro(_sub) => FloatCmd::default().run(),
-            Commands::Resize(_sub) => FloatCmd::default().run(),
+            Commands::Resize(sub) => {
+                let flags = crate::cmds::float::FloatFlags {
+                    height: "100%".into(),
+                    width: "95%".into(),
+                    x: "10".into(),
+                    y: "0".into(),
+                };
+                crate::cmds::float::run_resize(&sub, &flags)
+            }
             Commands::Watch(_sub) => FloatCmd::default().run(),
             Commands::Yazi(_sub) => FloatCmd::default().run(),
         }

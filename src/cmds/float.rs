@@ -342,7 +342,7 @@ fn run_mdcat(args: &FloatSubArgs, flags: &FloatFlags) -> anyhow::Result<()> {
     exec_sh(&cmd).map_err(|e| anyhow::anyhow!("Failed to launch mdcat: {}", e))
 }
 
-fn run_resize(args: &FloatSubArgs, flags: &FloatFlags) -> anyhow::Result<()> {
+pub fn run_resize(args: &FloatSubArgs, flags: &FloatFlags) -> anyhow::Result<()> {
     let layout = args.args.first().map(|s| s.as_str()).unwrap_or("default");
     let geom = resolve_layout(layout, flags)?;
     let cmd = format!(
