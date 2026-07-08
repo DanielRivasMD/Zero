@@ -1,0 +1,70 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+use anyhow::Result as anyResult;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+pub mod clean;
+pub mod float;
+pub mod kill;
+pub mod launch;
+pub mod list;
+pub mod monitor;
+pub mod name;
+pub mod stack;
+pub mod tab;
+pub mod update;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+pub mod completion {
+
+    use clap::{Command, CommandFactory};
+    use clap_complete::{generate, shells::*};
+    use std::io;
+
+    use crate::cli;
+
+    pub fn run(shell: cli::Shell) -> super::anyResult<()> {
+        let visible: Vec<_> = cli::Cli::command()
+            .get_subcommands()
+            .filter(|s| !s.is_hide_set())
+            .cloned()
+            .collect();
+
+        let mut cmd = Command::new(env!("CARGO_BIN_NAME")).subcommands(visible);
+        let name = cmd.get_name().to_string();
+
+        // Manually add global flags from the full CLI definition
+        let full = cli::Cli::command();
+        for arg in full.get_arguments() {
+            let name = arg.get_id().as_str();
+            if name == "recursive" || name == "verbose" {
+                cmd = cmd.arg(arg.clone());
+            }
+        }
+
+        match shell {
+            cli::Shell::Bash => generate(Bash, &mut cmd, name, &mut io::stdout()),
+            cli::Shell::Zsh => generate(Zsh, &mut cmd, name, &mut io::stdout()),
+            cli::Shell::Fish => generate(Fish, &mut cmd, name, &mut io::stdout()),
+            cli::Shell::Powershell => generate(PowerShell, &mut cmd, name, &mut io::stdout()),
+        }
+        Ok(())
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+pub mod identity {
+    use colored::*;
+
+    pub fn run() -> super::anyResult<()> {
+        println!();
+        println!();
+        println!();
+        Ok(())
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
